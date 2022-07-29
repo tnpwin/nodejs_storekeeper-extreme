@@ -1,0 +1,47 @@
+<header>
+    <div class="navbar">
+        <div class="container">
+            <nav class="nav nav-top">
+                <ul class="contact">
+                    <li><span>095-3288834</span></li>
+                    <li><span>wintnpnrp@gmail.com</span></li>
+                </ul>
+                <div class="logo">
+                    <a href="/">Shop<span id="logo-shop"> Keeper</span></a>
+                </div>
+                <div class="user-info">
+                    <% if(locals.user){ %>
+                        <ul class="dropdown-link">
+                            <a class="user-dropdown">บัญชีของฉัน <i class="fa fa-caret-down"></i></a>
+                            <ul class="user-dropdown-content">
+                                <li><a href="/users">แก้ไขข้อมูลส่วนตัว</a></li>
+                                <li><a href="/users/history">ประวัติการสั่งซื้อ</a></li>
+                                <li><a href="/users/logout">ออกจากระบบ</a></li>
+                            </ul>
+                        </ul>
+                    <% } %>
+                    <% if(!locals.user){ %>
+                        <li><a href="/users" class="login-btn">เข้าสู่ระบบ</a></li>     
+                    <% } %>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="nav nav-bottom">
+            <span id="bar"><i class="fas fa-bars"></i></span>
+            <ul class="menu">
+                <li><a href="/" class="menu-item"><img src="/img/home.png" alt=""> หน้าแรก</a></li>
+                <li><a href="/howtoBuy" class="menu-item"><img src="/img/purchase.png" alt=""> วิธีการสั่งซื้อ</a></li>
+                <li><a href="/contact" class="menu-item"><img src="/img/telephone.png" alt=""> ติดต่อเรา</a></li>
+            </ul>
+            <% if(!locals.summary){ %>
+            <a class="basket" href="/users/cart">0 รายการ | 0 บาท</a>
+            <% } %>
+
+            <% if(locals.summary){ %>
+            <a class="basket" href="/users/cart"><%= summary.totalQuantity %> รายการ | <%= formatMoney(summary.total) %> บาท</a>
+            <% } %>
+        </nav>
+    </div>
+</header>

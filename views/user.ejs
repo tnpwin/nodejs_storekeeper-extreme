@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+
+  <div class="container">
+      <main class="user-account">
+        <div class="user-account-header">
+          <h2>บัญชีของฉัน</h2>
+        </div>
+        <div class="user-account-content">
+          <% if(locals.user) { %>
+            <p>Hello <b><%= user.username %></b> ( not <b><%= user.username %></b>? <span><a href="/users/logout">Logout</a></span> )</p> 
+            <p>From your account dashboard you can view your <span><a href="/users/history">recent orders</a></span> and <span><a href="/users/change-password">edit your password.</a></span></p>
+          <% } %>
+        </div>
+      </main>
+  </div>
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+ 
+
+
+
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

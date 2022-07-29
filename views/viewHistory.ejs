@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <div class="user-account-header">
+      <h2>ประวัติการสั่งซื้อ</h2>
+    </div>
+    <% if(data) {%>
+      <% data.forEach((item, index) => { %>
+      <div class="order-container">
+          <div class="order-flex">
+            <div class="flex-address">
+              <h4>สรุปรายการสั่งซื้อ</h4>
+              <p><b>ชื่อ</b> <span><%= item.full_name %></span></p>
+              <!-- <p><span><%= item.street_address %> ตำบล<%= item.sub_district %> อำเภอ<%= item.district %></span></p>
+              <p><span>จังหวัด<%= item.province %> <%= item.postcode %></span></p> -->
+              <span><b>เบอร์โทรติดต่อ</b> <span><%= item.tel %></span></span>
+            </div>
+            <div class="flex-info">
+              <h4>เลขที่สั่งซื้อ #<span> <%= item.order_id %></span></h4>
+              <p><b>วันที่ทำการสั่งซื้อ</b> <span><%= item.OrderDate %> น.</span></p>
+              <% if(item.status_order !== null) { %>
+              <p class="true">อนุมัติรายการสั่งซื้อเรียบร้อย</p>
+              <% } else { %>
+              <p class="false">รออนุมัติการสั่งซื้อ</p>
+              <% } %>
+            </div>
+          </div>
+        <table id="history-list">
+          <thead>
+            <tr class="history-detail">
+              <th>ลำดับ</th>
+              <th>รายการ</th>
+              <th>ราคา</th>
+              <th>ยอดรวม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (products) { %>
+              <% products.forEach((product,index) => { %>
+              <tr class="history-detail">
+                <td><p><%= index+1 %></p></td>
+                <td><p><%= product.categoryName %> <%= product.name%> <%= product.color %> x <%= product.quantity %></p></td>
+                <td><p><%= formatMoney(product.price) %> บาท</p></td>
+                <td><p><%= formatMoney(product.total) %> บาท</p></td>
+              </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+
+        <table id="history-summary">
+          <tbody class="history-summary-item">
+            <tr>
+              <td><b>ราคา</b></td>
+              <td><%= formatMoney(item.sub_total) %> บาท</td>
+            </tr>
+            <tr>
+              <td><b>ค่าขนส่ง</b></td>
+              <td>ฟรี</td>
+            </tr>
+            <tr>
+              <td><b>ราคาสุทธิ</b></td>
+              <td><%= formatMoney(item.Total) %> บาท</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

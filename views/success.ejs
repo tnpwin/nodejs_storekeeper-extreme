@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <% if(locals.user) { %>
+    <div class="review-checkout-container">
+      <div class="review-checkout">
+        <h1>ดำเนินการสั่งซื้อสำเร็จ</h1>
+        <p>สามารถดูประวัติการสั่งซื้อของคุณได้ <a href="/users/history">ที่นี่</a></p>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

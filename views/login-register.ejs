@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <% if(locals.err_message) { %>
+      <div class="alert alert-danger"><%= err_message %></div>
+    <% } %>
+
+    <% if(locals.success_message) { %>
+      <div class="alert alert-success"><%= success_message %></div>
+    <% } %>
+    <div class="warp-container">
+      <div class="wrap">
+        <div class="toggle-bar">
+          <div class="toggle-login active">
+            <span>ลงชื่อเข้าใช้</span>
+          </div>
+          <div class="toggle-register">
+            <span>ลงทะเบียน</span>
+          </div>
+        </div>
+  
+        <div class="login-body">
+          <form action="/users" method="post" class="login-form">
+            <div class="input-section">
+              <i class="fas fa-user"></i>
+              <input class="user-input" type="text" name="username" placeholder="บัญชีผู้ใช้">
+            </div>
+  
+            <div class="input-section">
+              <i class="fas fa-lock"></i>
+              <input class="user-input" name="password" type="password" placeholder="รหัสผ่าน">
+            </div>
+  
+            <input type="submit" value="ลงชื่อเข้าใช้">
+          </form>
+        </div>
+  
+        <div class="register-body">
+          <form action="/users/register" method="post" class="register-form">
+            <div class="input-section">
+              <i class="fas fa-user"></i>
+              <input class="user-input" type="text" name="username" placeholder="บัญชีผู้ใช้">
+            </div>  
+            <div class="input-section">
+              <i class="fas fa-envelope"></i>
+              <input class="user-input" type="email" name="email" placeholder="อีเมล์">
+            </div>
+  
+            <div class="input-section">
+              <i class="fas fa-lock"></i>
+              <input class="user-input" type="password" name="password" placeholder="รหัสผ่าน" >
+            </div>
+           
+            <div class="input-section">
+              <i class="fas fa-lock"></i>
+              <input class="user-input" type="password" name="cpassword" placeholder="ยืนยันรหัสผ่าน">
+            </div>
+  
+            <input type="submit" value="ลงทะเบียน">
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+ 
+
+
+
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

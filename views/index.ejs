@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+
+  <section class="banner">
+    <div class="container">
+      <section id="banner">
+        <ul class="category-dropdown">
+          <a class="drop-btn">หมวดหมู่สินค้า <i class="fa fa-caret-down"></i></a>
+          <ul class="category-dropdown-items">
+            <% if (showAllCategory){%>
+            <li><a href="/products">ดูสินค้าทั้งหมด</a></li>
+            <% showAllCategory.forEach((category) => { %>
+            <li><a href="/products/category/?category=<%= category.name %>"><%= category.name %></a></li>
+            <% }) %>
+            <% } %>
+          </ul>
+        </ul>
+        <div class="banner-items">
+          <div class="img-slide fade">
+            <img src="/img/sh3.jpg" alt="">
+          </div>
+          <div class="img-slide fade">
+            <img src="/img/sh4.jpg" alt="">
+          </div>
+          <div class="img-slide fade">
+            <img src="/img/sh5.jpg" alt="">
+          </div>
+          <div class="img-slide fade">
+            <img src="/img/sh6.jpg" alt="">
+          </div>
+          <div class="img-slide fade">
+            <img src="/img/dept0.jpg" alt="">
+          </div>
+          <div class="img-slide fade">
+            <img src="/img/dept1.jpg" alt="">
+          </div>
+        </div>
+      </section>
+
+      <section class="condition-product">
+        <div class="condition-cart">
+            <img src="img/return.png" alt="" width="30">
+            <h4>รับคืนสินค้าภายใน 7 วัน</h4>
+        </div>
+
+        <div class="condition-cart">
+          <img src="img/truck.png" alt="" width="30">
+          <h4>จัดส่งฟรีทั่วประเทศ</h4>
+        </div>
+
+      </section>
+
+    </div>
+  </section>
+
+  
+
+
+
+
+
+
+  <section class="show-products">
+    <div class="container">
+      <div class="show-product-header">
+        <p>สินค้าขายดี</p>
+      </div>
+
+      <% if (dataProducts) { %>
+
+      <div class="show-product-container">
+        <img src="/img/arrow-left.png" class="arrow" id="arrow-left" alt="">
+        <section class="show-product-slides">
+          <% dataProducts.forEach((product) => { %>
+          <div class="product-card">
+            <div class="card-img">
+              <a href="/products/<%= product.id %>">
+                <img src="/img/products/<%= product.image %>" alt="">
+              </a>
+              <% if(product.total === 0) {%>
+              <div class="out-of-stock">
+                  <p>สินค้าหมด</p>
+              </div>
+              <% } %>
+            </div>
+            <div class="card-body">
+              <p><%= product.categoryName %></p>
+              <p><%= product.name %> | <%= product.color %></p>
+              <% if (product.discount !== 0) { %>
+                <del><span>฿ <%= formatMoney(product.price) %></span></del> <span>฿ <%= formatMoney(product.discount) %></span>
+              <% } else { %>
+                <span> ฿ <%= formatMoney(product.price) %></span>
+              <% } %>
+            </div>
+            <div class="card-footer">
+              <a href="/products/<%=product.id %>"><button>อ่านรายละเอียด</button></a>
+              <% if(product.total !== 0) {%>
+              <form action="/users/cart/" method="POST">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit">หยิบใส่ตระกร้า</button>
+              </form>
+              <% } %>
+            </div>
+          </div>
+          <% }) %>
+
+        </section>
+
+        <img src="/img/arrow-right.png" class="arrow" id="arrow-right" alt="">
+      </div>
+
+      <% } %>
+
+      <div class="all-product-btn">
+        <a href="/products" >ดูสินค้าทั้งหมด</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-licence">
+        <h4>Copyright 2022 StoreKeeper Offical All Rights Reserved</h4>
+    </div>
+    <div class="footer-contact">
+        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/tnpwin/nodejs_storekeeper" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+
+
+
+
+  <!-- <%- include ('siteFooter')%> -->
+  <%- include ('siteScripts')%>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include ('adminHead')%>
+<body class="g-sidenav-show   bg-gray-100">
+    <!-- navbar -->
+    <%- include ('adminHeader')%>
+    <main class="main-content position-relative border-radius-lg ">
+      <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+            <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">หน้าแรก</a></li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">แก้ไขสินค้า</li>
+                </ol>
+                <h6 class="font-weight-bolder text-white mb-0">แก้ไขสินค้า </h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                    <i class="fa fa-user me-sm-1"></i>
+                    <span class="d-sm-inline d-none">Admin</span>
+                    </a>
+                </li>
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                    </div>
+                    </a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <% if (messages.error) { %>
+            <div class="alert alert-danger" role="alert"><%= messages.error %></div>
+            <% } %>
+            <% if (messages.success) { %>
+            <div class="alert alert-success" role="alert"><%= messages.success %></div>
+            <% } %>
+            <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>แก้ไขรายการสินค้า</h6>
+                </div>
+                <% if(products) {%>
+                <% products.forEach((product) => { %>
+                <div class="col-md-6">
+                    <img class="rounded float-start mx-4" height="230px" src="/img/products/<%= product.image %>" alt="">
+                </div>
+                <form class="pb-4 mx-4" action="/admin/edit-product/?id=<%= product.id %>" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlSelect1">หมวดหมู่สินค้า *</label>
+                            <% if (dataAllCategories.length > 0) {%>
+                            <select class="form-control" name="category">
+                                <% dataAllCategories.forEach((dataCategory)=> { %>
+                                <option><%= dataCategory.name %></option>
+                                <% }); %>
+                            </select>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlInput1">ชื่อสินค้า *</label>
+                            <input type="text" class="form-control" name="name" value="<%= product.name%>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlInput1">ราคา *</label>
+                            <input type="number" class="form-control" min="1" name="price" value="<%= product.price %>">
+                            </div>
+                        </div>
+                        <div class="col md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlInput1">ราคาพิเศษ</label>
+                            <input type="number" class="form-control"  placeholder="เฉพาะสินค้าที่ลดราคาเท่านั้น" name="discount" value="<%= product.discount %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlInput1">สี *</label>
+                            <input type="text" class="form-control" name="color" value="<%= product.color%>">
+                            </div>
+                        </div>
+                        <div class="col md-6">
+                            <div class="form-group">
+                            <label for="exampleFormControlInput1">จำนวน *</label>
+                            <input type="number" class="form-control" name="amount" min="0" value="<%= product.total %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="custom-file">
+                    <label class="custom-file-label">รูปภาพสินค้า *</label>
+                    <input type="file" class="form-control" name="productImg">
+                    </div>
+
+                    <input type="submit"  value="บันทึกข้อมูล" class="btn btn-success mt-4">
+                </form>
+                <% }) %>
+                <% } %>
+                </div>  
+            </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <%- include ('siteAdminScript')%>
+
+  
+
+
+</body>
+</html>

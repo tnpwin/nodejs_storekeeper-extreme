@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+
+  <div class="container">
+
+    <% if(typeof alert != 'undefined') { %>
+        <ul class="alert alert-danger">
+          <% alert.forEach((error) => {%>
+          <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+    <% if (messages.success) { %>
+    <div class="alert alert-success" role="alert"><%= messages.success %></div>
+    <% } %>
+
+    <main class="user-account">
+      <div class="user-account-header">
+        <h2>ติดต่อเรา</h2>
+      </div>
+      <section class="condition-product">
+        <div class="condition-cart">
+            <i class="fas fa-phone"></i>
+            <h4>095-3288834</h4>
+        </div>
+
+        <div class="condition-cart">
+            <i class="fas fa-envelope"></i>
+          <h4>wintnpnrp@gmail.com</h4>
+        </div>
+
+      </section>
+      <form action="/contact" method="POST">
+
+        <div class="contact-container">
+            <div class="input-contact">
+                <input type="text" name="name" autocomplete="off" placeholder="ชื่อ-นามสกุล">
+            </div>
+            <div class="input-contact">
+                <input type="email" name="email_contact" autocomplete="off" value="" placeholder="อีเมล์">
+            </div>
+            <div class="input-contact">
+                <textarea rows="4" cols="50" name="message" autocomplete="off" value="" placeholder="ข้อความ"></textarea>
+            </div>
+
+            <button type="submit">ส่งข้อความ</button>
+            
+            
+        </div>
+      </form>
+      
+    </main>
+</div>
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

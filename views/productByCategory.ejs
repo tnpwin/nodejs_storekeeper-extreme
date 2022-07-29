@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <div class="products-item">
+        <ul class="category-dropdown">
+            <a class="drop-btn">หมวดหมู่สินค้า <i class="fa fa-caret-down"></i></a>
+            <ul class="category-dropdown-items">
+              <li><a href="/products">ดูสินค้าทั้งหมด</a></li>
+              <% if (showAllCategory){%>
+                <% showAllCategory.forEach((category) => { %>
+                <li><a href="/products/category/?category=<%= category.name %>"><%= category.name %></a></li>
+                <% }) %>
+              <% } %>
+            </ul>
+        </ul>
+
+        <% if (dataProducts){%>
+        <section class="show-product-grid">
+            <% dataProducts.forEach((dataProduct) => { %>
+                <div class="product-card">
+                    <div class="card-img">
+                        <a href="/products/<%=dataProduct.id %>">
+                          <img src="/img/products/<%= dataProduct.image %>" alt="">
+                        </a>
+                        <% if(dataProduct.total === 0) {%>
+                        <div class="out-of-stock">
+                            <p>สินค้าหมด</p>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="card-body">
+                        <p><%= dataProduct.categoriesName %></p>
+                        <p><%= dataProduct.productsName %> | <%= dataProduct.color %></p>
+
+                        <% if (dataProduct.discount !== 0) { %>
+                          <del><span>฿ <%= formatMoney(dataProduct.price) %></span></del> <span>฿ <%= formatMoney(dataProduct.discount) %></span>
+                        <% } else { %>
+                          <span> ฿ <%= formatMoney(dataProduct.price) %></span>
+                        <% } %>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/products/<%=dataProduct.id %>"><button>อ่านรายละเอียด</button></a>
+                        <% if(dataProduct.total !== 0) {%>
+                        <form action="/users/cart/" method="POST">
+                          <input type="hidden" name="productId" value="<%= dataProduct.id %>">
+                          <button type="submit">หยิบใส่ตระกร้า</button>
+                        </form>
+                       <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+        <% } %>
+    </div>
+    <% if (dataProducts.length === 0 ){%>
+        <div class="no-data-container">
+            <h1 id="no-data">COMING SOON!</h1>
+        </div>
+    <% } %>
+  </div>
+  <footer class="footer">
+    <div class="footer-licence">
+        <h4>Copyright 2022 StoreKeeper Offical All Rights Reserved</h4>
+    </div>
+    <div class="footer-contact">
+        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/tnpwin/nodejs_storekeeper" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+
+
+
+  <!-- <%- include ('siteFooter')%> -->
+  <%- include ('siteScripts')%>
+</body>
+</html>

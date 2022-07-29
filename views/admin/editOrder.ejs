@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include ('adminHead')%>
+<body class="g-sidenav-show   bg-gray-100">
+    <%- include ('adminHeader')%>
+    <main class="main-content position-relative border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+          <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">หน้าแรก</a></li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">ออเดอร์</li>
+              </ol>
+              <h6 class="font-weight-bolder text-white mb-0">ออเดอร์</h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+              <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+              </div>
+              <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item d-flex align-items-center">
+                  <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                    <i class="fa fa-user me-sm-1"></i>
+                    <span class="d-sm-inline d-none">Admin</span>
+                  </a>
+                </li>
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                  <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <div class="sidenav-toggler-inner">
+                      <i class="sidenav-toggler-line bg-white"></i>
+                      <i class="sidenav-toggler-line bg-white"></i>
+                      <i class="sidenav-toggler-line bg-white"></i>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+        <% if(data) {%>
+          <% data.forEach((item, index) => { %>
+          <div class="container-fluid py-4">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card mb-4">
+                    <div class="card-header pb-0">
+                      <h6>รายการออเดอร์ # <%= item.order_id %></h6>
+                    </div>
+                   
+                    <div class="card">
+                      <div class="card-header pb-0 p-3">
+                        <div class="d-flex justify-content-between">
+                          <div class="mx-2">
+                            <h6 class="text-dark text-m">สรุปรายการสั่งซื้อ</h6>
+                            <p class="text-dark text-s"><%= item.full_name %></p>
+                            <p class="text-dark text-s"><%= item.street_address %> ตำบล<%= item.sub_district %> อำเภอ<%= item.district %> จังหวัด <%= item.province %> <%= item.postcode %></p>
+                            <p class="text-dark text-s">เบอร์โทร <%= item.tel%></p>
+                          </div>
+                          <div class="mx-1">
+                            <h6 class="text-dark text-s">วันที่สั่งซื้อ <%= item.OrderDate %> น.</h6>
+                            <div class="row">
+                              <% if (item.status_order === null) { %>
+                              <div class="dropdown">
+                                <button class="btn bg-gradient-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                  รออนุมัติการสั่งซื้อ
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <li><a class="dropdown-item" href="/admin/order/confirm/?confirm=<%= item.order_id%>">ยืนยันออเดอร์</a></li>
+                                  <li><a class="dropdown-item" href="/admin/order/reject/?reject=<%= item.order_id%>">ลบออเดอร์</a></li>
+                                </ul>
+                              </div>
+                              <% } else { %>
+                                <span style="cursor:context-menu;" class="btn bg-success text-white" aria-expanded="false">
+                                  อนุมัติรายการสั่งซื้อเรียบร้อย
+                                </span>
+                              <% } %>
+
+                              <img class="rounded" style="width:350px; height: 450px;" src="/img/payment/<%= item.payment_img %>" alt="">
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                          <thead>
+                            <tr>
+                              <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">ลำดับ</th>
+                              <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">รายการ</th>
+                              <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">ราคา</th>
+                              <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">ยอดรวม</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <% if (products) { %>
+                            <% products.forEach((product,index) => { %>
+                            <tr>
+                              <td>
+                                <div class="d-flex px-2 mx-3">
+                                  <div class="my-auto">
+                                    <h6 class="text-xs font-weight-bold mb-0"><%= index+1 %></h6>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <p class="text-xs font-weight-bold mb-0"><%= product.categoryName %> <%= product.name%> <%= product.color %> x <%= product.quantity %></p>
+                              </td>
+                              <td>
+                                <span class="text-xs font-weight-bold "><%= formatMoney(product.price) %> บาท</span>
+                              </td>
+                              <td>
+                                  <span class="text-xs font-weight-bold"><%= formatMoney(product.total) %> บาท</span>
+                              </td>
+                            </tr>
+                            <% }) %>
+                          <% } %>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <span class="text-xs font-weight-bold ">รวมทั้งหมด</span>
+                              </td>
+                              <td>
+                                <span class="text-xs font-weight-bold "><%= formatMoney(item.sub_total) %> บาท</span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <span class="text-xs font-weight-bold ">ค่าขนส่ง</span>
+                              </td>
+                              <td>
+                                <span class="text-xs font-weight-bold">ฟรี</span>
+                              </td>
+                            </tr>
+                            <tr>
+
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <span class="text-s font-weight-bold text-primary ">รวมสุทธิ</span>
+                              </td>
+                              <td>
+                                <span class="text-s font-weight-bold text-primary "><%= formatMoney(item.Total) %> บาท</span>
+                              </td>
+                            </tr>
+          
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <% }) %>
+        <% } %>
+    </main>
+
+    <%- include ('siteAdminScript')%>
+
+</body>
+</html>

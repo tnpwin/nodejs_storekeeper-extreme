@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+
+  <div class="container">
+    <div class="user-account-header">
+      <h2>ประวัติการสั่งซื้อ</h2>
+    </div>
+    <% if(data.length > 0) {%>
+    <table id="history-list">
+      <thead>
+        <tr class="history-detail">
+          <th>เลขที่สั่งซื้อ</th>
+          <th>วันที่ทำรายการ</th>
+          <th>ยอดรวม</th>
+          <th>สถานะ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach((item) => { %>
+        <tr class="history-detail">
+          <td><p># <%= item.order_id %></p></td>
+          <td><p><%= item.OrderDate %></p></td>
+          <td><p><%= formatMoney(item.Total) %> บาท</p></td>
+          <% if (item.status_order !== null) { %>
+          <td><p class="true">อนุมัติรายการสั่งซื้อเรียบร้อย</p></td>
+          <% } else { %>
+          <td><p class="false">รออนุมัติการสั่งซื้อ</p></td>
+          <% } %>
+          <td><p><a href="/users/history/order/?view=<%= item.order_id %>">ดูรายละเอียด</a></p></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+
+    <% if (data.length <= 0){ %>
+      <div class="empty-cart">
+        <p>ไม่มีประวัติการสั่งซื้อของคุณ</p>
+        <div class="empty-cart-btn">
+          <a href="/products">ไปเลือกซื้อสินค้ากันเลย~</a>
+        </div>
+      </div>
+    <% }%>
+
+    <% if (paginate.hasPreviousPages || paginate.hasNextPages(numOfPage)) { %>
+    <div class="pagination">
+      <% if (paginate.hasPreviousPages) { %>
+        <a href="<%= paginate.href(true) %>">&laquo;</a>
+      <% } %>
+
+      <% if (pages) { %>
+        <% pages.forEach(function(page, i){ %>
+          <a href="<%= page.url %>"><%= page.number %></a>
+        <% }); %>
+      <% } %>
+
+      <% if (paginate.hasNextPages(numOfPage)) { %>  
+        <a href="<%= paginate.href() %>">&raquo;</a>
+      <% } %>
+
+    </div>
+    <% } %>
+    
+
+  </div>
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <% if(data) { %>
+    <% data.forEach((dataProduct) => {%>
+    <section class="show-product-flex">
+      <div class="show-product-image">
+        <img src="/img/products/<%= dataProduct.image %>" alt="">
+        <% if (dataProduct.total == 0) { %>
+        <div class="out-of-stock-id">
+          <p>สินค้าหมด</p>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="show-product-id">
+        <div class="show-product-title">
+          <p> <b><%= dataProduct.categoriesName%> <%= dataProduct.productsName%> <%= dataProduct.color%></b></p>
+        </div>
+        <div class="show-product-detail">
+        <% if (dataProduct.discount !== 0) { %>
+          <del><span>฿ <%= formatMoney(dataProduct.price) %></span></del> <span> <b> ฿ <%= formatMoney(dataProduct.discount) %></b> </span>
+        <% } else { %>
+          <span><b>฿ <%= formatMoney(dataProduct.price) %></b></span>
+        <% } %>
+
+        <p><%= dataProduct.categoriesName%></p>
+
+        <p>สี : <%= dataProduct.color%></p>
+
+        <p>ส่งฟรี EMS ทั่วประเทศ</p>
+
+        <% if (dataProduct.total == 0) { %>
+          <p style="color:red;"><b>สินค้าหมด</b></p>
+        <% } %>
+
+        <% if (dataProduct.total !== 0) { %>
+          <p><b>มีสินค้าพร้อมส่ง</b></p>
+          <form action="/users/cart/" method="POST" class="add-to-cart">
+            <input type="hidden" name="productId" value="<%= dataProduct.id %>">
+            <button type="submit">หยิบใส่ตระกร้า</button>
+          </form>
+        <% } %>
+        </div>
+
+       
+
+        
+
+
+      </div>
+
+      
+
+
+    <% }) %>
+    <% } %>
+
+    </section>
+
+  </div>
+
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>

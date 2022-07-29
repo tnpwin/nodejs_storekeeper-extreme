@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include ('adminHead')%>
+<body class="g-sidenav-show   bg-gray-100">
+    <!-- navbar -->
+    <%- include ('adminHeader')%>
+    <main class="main-content position-relative border-radius-lg ">
+      <!-- Navbar -->
+      <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+        <div class="container-fluid py-1 px-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+              <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">หน้าแรก</a></li>
+              <li class="breadcrumb-item text-sm text-white active" aria-current="page">เพิ่มสินค้า</li>
+            </ol>
+            <h6 class="font-weight-bolder text-white mb-0">เพิ่มสินค้า</h6>
+          </nav>
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+              <li class="nav-item d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                  <i class="fa fa-user me-sm-1"></i>
+                  <span class="d-sm-inline d-none">Admin</span>
+                </a>
+              </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        <% if (messages.error) { %>
+          <div class="alert alert-danger" role="alert"><%= messages.error %></div>
+        <% } %>
+        <% if (messages.success) { %>
+          <div class="alert alert-success" role="alert"><%= messages.success %></div>
+        <% } %>
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-4">
+              <div class="card-header pb-0">
+                <h6>เพิ่มรายการสินค้า</h6>
+              </div>
+      
+              <form class="pb-4 mx-4" action="/admin/add-product" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">หมวดหมู่สินค้า *</label>
+                      <% if (dataAllCategories.length > 0) {%>
+                      <select class="form-control" name="category">
+                          <% dataAllCategories.forEach((dataCategory)=> { %>
+                        <option><%= dataCategory.name %></option>
+                          <% }); %>
+                      </select>
+                      <% } %>
+
+                      <% if (dataAllCategories.length === 0) {%>
+                      <p class="text-left">ยังไม่มีหมวดหมู่สินค้า ไปเพิ่มกันเลย!!  <a href="/admin/add-category" class="btn btn-info py-1 mt-1">เพิ่มหมวดหมู่สินค้า</a></p>
+                      <% } %>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">ชื่อสินค้า *</label>
+                      <input type="text" class="form-control" name="name">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">ราคา *</label>
+                      <input type="number" class="form-control" min="1" name="price">
+                    </div>
+                  </div>
+                  <div class="col md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">ราคาพิเศษ</label>
+                      <input type="number" class="form-control"  placeholder="เฉพาะสินค้าที่ลดราคาเท่านั้น" min="0" name="discount">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">สี *</label>
+                      <input type="text" class="form-control" name="color">
+                    </div>
+                  </div>
+                  <div class="col md-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">จำนวน *</label>
+                      <input type="number" class="form-control" name="amount" min="0">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="custom-file">
+                  <label class="custom-file-label">รูปภาพสินค้า *</label>
+                  <input type="file" class="form-control" name="productImg">
+                </div>
+
+                <input type="submit"  value="บันทึกข้อมูล" class="btn btn-success mt-4">
+              </form>
+            </div>  
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-4">
+              <div class="card-header pb-0">
+                <h6>รายการสินค้า</h6>
+              </div>
+              <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NO.</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">รูปภาพสินค้า</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ชื่อสินค้า</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">คงเหลือ</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">สถานะ</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ราคา</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ราคาพิเศษ</th>
+                        <th class="text-secondary opacity-7"></th>
+                      </tr>
+                    </thead>
+                    <% if(dataAllProducts) { %>
+                      <tbody>
+                        <% dataAllProducts.forEach((dataProduct)=> { %>
+                        <tr>
+                          <td>
+                              <p class="text-xs font-weight-bold mb-0 px-3"># <%= dataProduct.id  %></p>   
+                          </td>
+                          <td class="px-4">
+                            <img src="../img/products/<%= dataProduct.image %>" alt="" width="50" class="img-responsive"> 
+                          </td>
+                          <td>
+                              <div class="d-flex px-0 py-1">
+                                  <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-sm"><%= dataProduct.categoriesName %></h6>
+                                    <p class="text-xs text-secondary mb-0"><%= dataProduct.productsName %> <%= dataProduct.color %></p>
+                                  </div>
+                                </div>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold"><%= formatMoney(dataProduct.total) %> ชิ้น</span>
+                          </td>
+                          <% if(dataProduct.total === 0 ) { %>
+
+                          <td class="align-middle text-center text-sm">
+                            <span class="badge badge-sm bg-danger">สินค้าหมด</span>
+                          </td>
+
+                          <% } %>
+
+                          <% if(dataProduct.total !== 0 ) { %>
+
+                            <td class="align-middle text-center text-sm">
+                              <span class="badge badge-sm bg-success">สินค้าพร้อมขาย</span>
+                            </td>
+                            
+                          <% } %>
+ 
+  
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">฿ <%= formatMoney(dataProduct.price) %> </span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">฿ <%= formatMoney(dataProduct.discount) %> </span>
+                          </td>
+                          <td class="align-middle">
+                            <a href="/admin/edit-product/?id=<%= dataProduct.id  %>" class="text-white font-weight-bold text-xs btn btn-primary my-2">
+                              Edit
+                            </a>
+                          </td>
+                        </tr>
+                        <% }) %>
+                      </tbody>
+                      
+                    <% } %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if (paginate.hasPreviousPages || paginate.hasNextPages(numOfPage)) { %>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <% if (paginate.hasPreviousPages) { %>
+                <li class="page-item">
+                  <a class="page-link" href="<%= paginate.href(true) %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <% } %>
+                <% if (pages) { %>
+                  <% pages.forEach(function(page, i){ %>
+                    <li class="page-item"><a class="page-link" href="<%= page.url %>"><%= page.number %></a></li>
+                  <% }); %>
+                <% } %>  
+
+                <% if (paginate.hasNextPages(numOfPage)) { %>
+                <li class="page-item">
+                  <a class="page-link" href="<%= paginate.href() %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+                <% } %>
+              </ul>
+            </nav>
+            <% } else { %>
+              <div></div>
+            <% } %>
+        </div>
+
+      
+      </div>
+    </main>
+
+
+    <%- include ('siteAdminScript')%>
+
+  
+
+
+</body>
+</html>

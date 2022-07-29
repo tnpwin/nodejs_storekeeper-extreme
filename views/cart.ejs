@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+
+  <div class="container">
+    <main class="user-account">
+      <div class="user-account-header">
+        <h2>ตระกร้า</h2>
+      </div>
+    </main>
+    <% if(cart.length > 0){ %>
+    <div class="cart-container">
+        <table id="cart-list">
+          <tr class="cart-detail">
+            <th>รายการสั่งซื้อ</th>
+            <th>ราคา</th>
+            <th>จำนวน</th>
+            <th>ยอดรวม</th>
+          </tr>
+          <% cart.forEach((product) => { %>
+          <tr class="cart-detail">
+            <td class="cart-product-item">
+              <img src="/img/products/<%= product.image %>" alt="" width="5" height="70">
+              <span><%= product.category %> <%= product.name%> <%= product.color%></span>
+            </td>
+            <% if(product.discount !== 0 || null) { %>
+              <td>
+                <p>฿<%= formatMoney(product.discount) %></p>
+              </td>
+            <% } else { %>
+              <td>
+                <p>฿<%= formatMoney(product.price) %></p>
+              </td>
+            <% } %>
+            <td class="cart-number">
+              <form action="/users/cart/update/<%= product.id %>" method="post">
+                <div class="button-container">
+                  <button class="cart-qty-minus" type="button" value="-">-</button>
+                  <input type="text" name="quantity" class="qty form-control" value="<%=(product.quantity) %>" autocomplete="off"/>
+                  <button class="cart-qty-plus" type="button" value="+">+</button>
+                  <button class="qty-update" type="submit">อัพเดทจำนวน</button>
+                </div>
+              </form>
+                
+            </td>
+            <td><p>฿<%= formatMoney(product.productTotal)%></p></td>
+            <td>
+              <form action="/users/cart/delete/<%= product.id %>" method="post">
+                <button class="delete-item" type="submit">x</button>
+              </form>
+            </td>
+          </tr>
+          <%})%>
+          <td class="control-cart">
+            <a href="/products">เลือกซื้อสินค้าเพิ่ม</a>
+          </td>
+        </table>
+
+
+        
+      <% if(summary) { %>
+      <table id="cart-summary">
+        <tr>
+          <th>รายการทั้งหมด</th>
+        </tr>
+        <tr class="cart-flex">
+          <td class="cart-summary-price">
+            <span>ราคาสินค้า</span>
+            <span>฿ <%= formatMoney(summary.subTotal) %></span>
+          </td>
+          <td class="cart-summary-price">
+            <span>ค่าจัดส่ง</span>
+            <span>ฟรี</span>
+          </td>
+          <td class="cart-summary-price">
+            <span>ยอดรวม</span>
+            <span>฿ <%= formatMoney(summary.total) %></span>
+          </td>
+        </tr>
+        <tr>
+          <td><button type="submit"><a href="/users/checkout/">ยืนยันการสั่งซื้อ</a> </button></td>
+        </tr>
+      </table>
+      <% } %>
+    <% }%>
+
+
+    <% if (cart.length <= 0){%>
+      <div class="empty-cart">
+        <p>ตระกร้าของคุณยังไม่มีสินค้า</p>
+        <div class="empty-cart-btn">
+          <a href="/">กลับสู่หน้าร้านค้า</a>
+        </div>
+      </div>
+    <% }%>
+    </div>
+    
+  </div>
+    
+  
+  <footer class="footer">
+    <div class="footer-licence">
+        <h4>Copyright 2022 StoreKeeper Offical All Rights Reserved</h4>
+    </div>
+    <div class="footer-contact">
+        <a href=""><i class="fab fa-facebook"></i></a>
+        <a href=""><i class="fab fa-instagram"></i></a>
+        <a href=""><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+  <script src="/js/cart.js"></script>
+  <%- include ('siteScripts')%>
+</body>
+</html>

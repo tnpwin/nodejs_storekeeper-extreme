@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <!-- <% if (locals.user) { %> -->
+  <%- include ('siteinfo')%>
+  <%- include ('siteHeader')%>
+  <div class="container">
+    <main class="user-account">
+      <div class="user-account-header">
+        <h2>คำสั่งซื้อ</h2>
+      </div>
+    </main>
+
+    <% if(typeof alert != 'undefined') { %>
+      <ul class="alert alert-danger">
+        <% alert.forEach((error) => {%>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <% if(messages.error) { %>
+      <ul class="alert alert-danger">
+        <li><%= messages.error %></li>
+      </ul>
+    <% } %>
+
+    <% if(cart) { %>
+    <form action="/users/checkout/" method="POST" id="checkout-container" enctype="multipart/form-data">
+      <% if (address) {%>
+      <div class="info-address">
+
+        <h3>ที่อยู่สำหรับจัดส่งสินค้า</h3>
+
+        <div class="input-address">
+          <label for="">ชื่อ-สกุล *</label>
+          <input type="text" name="fullName" autocomplete="off" value="<%= address.full_name %> " id="fullName">
+        </div>
+        <div class="input-address">
+          <label for="">ที่อยู่ *</label>
+          <input type="text" name="streetAddress" autocomplete="off" value="<%= address.street_address %>" id="addresss">
+        </div>
+        <div class="input-address">
+          <label for="">ตำบล *</label>
+          <input type="text" name="subdistrict" autocomplete="off" value="<%= address.sub_district %>" id="subDistrict">
+        </div>
+        <div class="input-address">
+          <label for="">อำเภอ *</label>
+          <input type="text" name="district" autocomplete="off" value="<%= address.district %>" id="district">
+        </div>
+        <div class="input-address">
+          <label for="">จังหวัด *</label>
+          <input type="text" name="province" autocomplete="off" value="<%= address.province %>" id="province">
+        </div>
+        <div class="input-address">
+          <label for="">รหัสไปรษณีย์ *</label>
+          <input type="text" name="postcode" autocomplete="off" value="<%= address.postcode %>" id="postcode">
+        </div>
+        <div class="input-address">
+          <label for="">เบอร์โทรศัพท์ *</label>
+          <input type="text" name="tel" autocomplete="off" value="<%= address.tel %>" id="tel">
+        </div>
+        <div class="input-address">
+          <label for="">หมายเหตุ (ถ้ามี)</label>
+          <textarea name="note" id="" cols="2" rows="2"></textarea>
+        </div>
+      </div>
+      <% } %>
+
+      <% if (!address) {%>
+      <div class="info-address">
+
+        <h3>ที่อยู่สำหรับจัดส่งสินค้า</h3>
+
+        <div class="input-address">
+          <label for="">ชื่อ-สกุล *</label>
+          <input type="text" name="fullName" autocomplete="off" id="fullName" >
+        </div>
+        <div class="input-address">
+          <label for="">ที่อยู่ *</label>
+          <input type="text" name="streetAddress" autocomplete="off" id="addresss">
+        </div>
+        <div class="input-address">
+          <label for="">ตำบล *</label>
+          <input type="text" name="subdistrict" autocomplete="off" id="subDistrict">
+        </div>
+        <div class="input-address">
+          <label for="">อำเภอ *</label>
+          <input type="text" name="district" autocomplete="off" id="district">
+        </div>
+        <div class="input-address">
+          <label for="">จังหวัด *</label>
+          <input type="text" name="province" autocomplete="off" id="province">
+        </div>
+        <div class="input-address">
+          <label for="">รหัสไปรษณีย์ *</label>
+          <input type="text" name="postcode" autocomplete="off" id="postcode">
+        </div>
+        <div class="input-address">
+          <label for="">เบอร์โทรศัพท์ *</label>
+          <input type="text" name="tel" autocomplete="off" id="tel">
+        </div>
+        <div class="input-address">
+          <label for="">หมายเหตุ (ถ้ามี)</label>
+          <textarea name="note" id="" cols="2" rows="2"></textarea>
+        </div>
+      </div>
+      <% } %>
+      <div class="checkout-summary">
+        <h3>รายการสั่งซื้อของคุณ</h3>  
+        <div id="checkout-summary-flex">
+          <div class="summary-header">
+            <p>รายการสั่งซื้อ</p>
+            <p>ยอดรวม</p>
+          </div>
+          <% cart.forEach((item) => { %>
+            <div class="summary-detail">
+              <p><%= item.name %> | <%= item.color %> x <%= item.quantity %> </p>
+              <p>฿ <%= formatMoney(item.productTotal) %></p>
+            </div>
+          <% }) %>
+         
+          <div class="summary-detail">
+            <p><b>การจัดส่ง</b></p>
+            <p>ฟรี</p>
+          </div>
+          <% if(cartSummary) { %>
+            <div class="summary-detail">
+              <p>ยอดรวม</p>
+              <p>฿ <%= formatMoney(cartSummary.total) %></p>
+            </div>
+          <% } %>
+        </div>
+        <div class="option-payment">
+          <div class="option-payment-item">
+            <img src="/img/QR_code.png" alt="">
+            <div class="option-detail">
+              <p>ธนาคาร <span>กสิกรไทย</span></p>
+              <p>เลขที่บัญชี <span>111-1-1111-1</span></p>
+              <p>ชื่อบัญชี <span>นายธนพล นิราศภัย</span></p>
+              <p>กรุณาโอนเงินตามรายละเอียดที่กำหนด และแนบสลีปการโอนเงิน หลังจากโอนเงินเรียบร้อยแล้ว</p>
+            </div>
+          </div>
+        </div>
+        <div class="input-file">
+          <label for="">สลีปการโอนเงิน :</label>
+          <input type="file" name="paymentImg" id="">
+        </div>
+        <button type="submit" id="btn-checkout">สั่งซื้อ</button>
+      </div>
+    </form>
+    <% } %>
+  </div>
+  <% } %>
+  <footer class="footer">
+    <div class="footer-licence">
+        <h4>Copyright 2022 StoreKeeper Offical All Rights Reserved</h4>
+    </div>
+    <div class="footer-contact">
+        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/tnpwin/nodejs_storekeeper" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+
+
+  <!-- <%- include ('siteFooter')%> -->
+
+  <%- include ('siteScripts')%>
+</body>
+</html>

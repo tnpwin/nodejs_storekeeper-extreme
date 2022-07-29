@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('baseHead')%>
+<body>
+  <%- include ('siteHeader')%>
+
+
+
+    <div class="container">
+      <main class="user-account">
+        <div class="user-account-header">
+          <h2>แจ้งชำระเงิน</h2>
+        </div>
+      </main>
+      <form action="/payment" method="POST" class="payment-confirm">
+        <div class="payment-container">
+            <div class="input-confirm">
+                <label for="">ชื่อ *</label>
+                <input type="text" name="" autocomplete="off">
+            </div>
+            <div class="input-confirm">
+                <label for="">เบอร์โทรศัพท์ *</label>
+                <input type="text" name="" autocomplete="off" value="">
+            </div>
+            <div class="input-confirm">
+                <label for="">เลขที่รายการสั่งซื้อ *</label>
+                <input type="text" name="" autocomplete="off" value="" placeholder="#-_____">
+                <small>สามารถดูได้ที่นี่</small>
+            </div>
+            <div class="input-confirm">
+                <label for="">เบอร์โทรศัพท์ *</label>
+                <input type="text" name="tel" autocomplete="off" value="">
+            </div>
+            <div class="input-confirm">
+                <label for="">วันที่โอน *</label>
+                <input type="text" name="tel" autocomplete="off" value="">
+            </div>
+            <div class="input-confirm">
+                <label for="">จำนวนเงิน *</label>
+                <input type="text" name="tel" autocomplete="off" value="">
+            </div>
+            <div class="input-confirm">
+                <label for="">สลีปการชำระเงิน *</label>
+                <input type="file" name="" autocomplete="off" value="">
+                <small>Max file Size 30000 KB</small>
+            </div>
+        </div>
+      </form>
+    </div>
+    
+  <%- include ('siteFooter')%>
+  <%- include ('siteScripts')%>
+</body>
+</html>
