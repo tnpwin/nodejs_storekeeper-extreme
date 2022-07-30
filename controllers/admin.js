@@ -2,6 +2,7 @@ const db = require('../config/database');
 const multer = require('multer');
 const paginate = require("express-paginate");
 const bcrypt = require('bcryptjs');
+const { cloudinary } = require('../config/cloudinary');
 
 
 
@@ -206,11 +207,11 @@ exports.getAddProducts = (req, res) => {
     });
 };
 
-exports.postAddProducts = (req, res) => {
+exports.postAddProducts = async (req, res) => {
     // console.log(req.file.filename);
     db.query('SELECT products.id, products.name AS productsName, products.price, products.discount,products.image, products.total, categories.name AS categoriesName FROM products\
     LEFT JOIN categories ON products.category_id = categories.id;\
-    SELECT * FROM categories ORDER BY id',(err,data) => {
+    SELECT * FROM categories ORDER BY id', async (err,data) => {
         const{ category, name, price, discount, color, amount} = req.body;
         if ( !category || !name || !price || !color || !amount || !req.file ) {
             req.flash('error', 'กรุณากรอกข้อมูลให้ครบ');
@@ -219,6 +220,12 @@ exports.postAddProducts = (req, res) => {
                 dataAllCategories : data[1]
             });
         } else {
+            // console.log("file details: ", req.file);
+
+            // cloudinary.v2.uploader.upload(file, options, callback);
+            const image = await cloudinary.uploader.upload(req.file.path);
+            // console.log("result: ", image);
+
             db.query('SELECT * FROM categories WHERE name = ?',[category],(err,result) => {
                 // console.log(result);
                 if (err) {
@@ -235,7 +242,7 @@ exports.postAddProducts = (req, res) => {
                         total:amount,
                         price:price,
                         discount:discount,
-                        image: req.file.filename,
+                        image: image.url,
                         category_id:result[0].id},
                         (err,results) => {
                         if(err) {
@@ -256,7 +263,7 @@ exports.postAddProducts = (req, res) => {
     });
 };
 
-exports.postEditProduct = (req,res) => {
+exports.postEditProduct = async (req,res) => {
 
     let id = req.query.id;
     const{ category, name, price, discount, color, amount} = req.body;
@@ -265,17 +272,18 @@ exports.postEditProduct = (req,res) => {
         req.flash('error', 'กรุณากรอกข้อมูลให้ครบ');
         res.render('admin/getEditProduct');
     } else {
-        db.query('SELECT * FROM categories WHERE name = ?',[category],(err,result) => {
+        db.query('SELECT * FROM categories WHERE name = ?',[category], async (err,result) => {
             // console.log(result);
             if (result.length > 0) {
                 if (req.file) {
+                    const image = await cloudinary.uploader.upload(req.file.path);
                     db.query('UPDATE products SET ? WHERE id = ?',[{
                         name:name.toLocaleUpperCase(), 
                         color:color.toLocaleUpperCase(), 
                         total:amount,
                         price:price,
                         discount:discount,
-                        image: req.file.filename,
+                        image: image.url,
                         category_id:result[0].id},id],
                         (err,results) => {
 

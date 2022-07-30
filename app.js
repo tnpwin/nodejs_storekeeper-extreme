@@ -6,7 +6,7 @@ const cookie = require('cookie-parser');
 const multer = require('multer');
 const paginate = require("express-paginate");
 
-
+const cloudinary = require('cloudinary').v2;
 const db = require('./config/database');
 
 const session = require("express-session");

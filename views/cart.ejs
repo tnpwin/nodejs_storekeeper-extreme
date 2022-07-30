@@ -23,8 +23,8 @@
           <% cart.forEach((product) => { %>
           <tr class="cart-detail">
             <td class="cart-product-item">
-              <img src="/img/products/<%= product.image %>" alt="" width="5" height="70">
-              <span><%= product.category %> <%= product.name%> <%= product.color%></span>
+              <img src="<%= product.image %>" alt="" width="5" height="70">
+              <span><%= product.name%> <%= product.color%></span>
             </td>
             <% if(product.discount !== 0 || null) { %>
               <td>
@@ -106,9 +106,9 @@
         <h4>Copyright 2022 StoreKeeper Offical All Rights Reserved</h4>
     </div>
     <div class="footer-contact">
-        <a href=""><i class="fab fa-facebook"></i></a>
-        <a href=""><i class="fab fa-instagram"></i></a>
-        <a href=""><i class="fab fa-github"></i></a>
+      <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://github.com/tnpwin/nodejs_storekeeper-extreme" target="_blank"><i class="fab fa-github"></i></a>
     </div>
   </footer>
 

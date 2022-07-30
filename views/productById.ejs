@@ -9,7 +9,7 @@
     <% data.forEach((dataProduct) => {%>
     <section class="show-product-flex">
       <div class="show-product-image">
-        <img src="/img/products/<%= dataProduct.image %>" alt="">
+        <img src="<%= dataProduct.image %>" alt="">
         <% if (dataProduct.total == 0) { %>
         <div class="out-of-stock-id">
           <p>สินค้าหมด</p>

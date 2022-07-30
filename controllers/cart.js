@@ -1,8 +1,6 @@
 const db = require('../config/database');
 const { validationResult } = require('express-validator');
-
-
-
+const { cloudinary } = require('../config/cloudinary');
 
 
 exports.getCart = (req,res) => {
@@ -207,7 +205,7 @@ exports.getCheckout = (req,res) => {
     };
 };
 
-exports.postCheckout = (req,res) => {
+exports.postCheckout = async (req,res) => {
     let user = req.session.userID;
     let showCart = req.session.showCart;
     let cartSummary = req.session.cartSummary;
@@ -254,7 +252,7 @@ exports.postCheckout = (req,res) => {
                 tel : tel
             }, user]);
         };
-        
+        const image = await cloudinary.uploader.upload(req.file.path);
         // showcart เก็บที่ order detail
         // cartSummary เก็บที่ orders เดี๋ยวลืมอีก
         const nDate = new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok', hour12: false }).replace(',','');
@@ -266,7 +264,7 @@ exports.postCheckout = (req,res) => {
             Total : cartSummary.total,
             OrderDate : nDate ,
             note : note,
-            payment_img : req.file.filename,
+            payment_img : image.url,
         },(err,result) => {
             if(result){
                 for (let items in showCart) {

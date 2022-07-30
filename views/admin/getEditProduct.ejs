@@ -55,7 +55,7 @@
                 <% if(products) {%>
                 <% products.forEach((product) => { %>
                 <div class="col-md-6">
-                    <img class="rounded float-start mx-4" height="230px" src="/img/products/<%= product.image %>" alt="">
+                    <img class="rounded float-start mx-4" height="230px" src="<%= product.image %>" alt="">
                 </div>
                 <form class="pb-4 mx-4" action="/admin/edit-product/?id=<%= product.id %>" method="POST" enctype="multipart/form-data">
                     <div class="row">
